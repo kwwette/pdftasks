@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="PDFTasks" default="jar">
+
+  <property name="version" value="0.1"/>
+  <property name="src.dir" value="source"/>
+  <property name="lib.dir" value="libraries"/>
+  <property name="build.dir" value="classes"/>
+  <property name="jar.file" value="${ant.project.name}-${version}.jar"/>
+
+  <path id="classpath">
+    <pathelement location="/usr/share/java/jabref.jar"/>
+    <pathelement location="/usr/share/java/pdfbox.jar"/>
+    <!-- <fileset dir="${lib.dir}" includes="*.jar"/> -->
+  </path>
+
+  <target name="compile">
+    <mkdir dir="${build.dir}"/>
+    <javac destdir="${build.dir}" source="1.5" target="1.5" includeantruntime="false">
+      <src path="${src.dir}"/>
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <target name="jar" depends="compile">
+    <jar destfile="${jar.file}">
+      <fileset dir=".">
+        <include name="plugin.xml"/>
+        <include name="${build.dir}/**"/>
+      </fileset>
+      <!-- <zipfileset src="${lib.dir}/lib.jar" prefix="${lib.dir}/pdfbox"/> -->
+    </jar>
+  </target>
+
+  <target name="clean">
+    <delete dir="${build.dir}"/>
+    <delete file="${jar.file}"/>
+  </target>
+
+</project>
