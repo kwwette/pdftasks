@@ -41,6 +41,7 @@ import org.pdfbox.pdmodel.encryption.BadSecurityHandlerException;
 import javax.xml.transform.TransformerException;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -91,6 +92,11 @@ public class PDFTaskSidePane
         move_to_pdf_dir_chk = new JCheckBox("Move PDFs to directory:", true);
         move_to_pdf_dir_chk.addChangeListener(this);
         pdf_dir_txt = new JTextField();
+        {
+            Dimension d = pdf_dir_txt.getPreferredSize();
+            d.height = (int)Math.ceil(d.height * 1.1);
+            pdf_dir_txt.setPreferredSize(d);
+        }
 
         // create check box for writing erasing PDF document info
         write_pdf_docinfo_chk = new JCheckBox("Write PDF document information", true);
