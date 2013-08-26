@@ -32,11 +32,11 @@ import net.sf.jabref.gui.FileListEntry;
 import net.sf.jabref.gui.FileListTableModel;
 import net.sf.jabref.util.XMPUtil;
 
-import org.pdfbox.exceptions.COSVisitorException;
-import org.pdfbox.exceptions.CryptographyException;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.pdmodel.PDDocumentInformation;
-import org.pdfbox.pdmodel.encryption.BadSecurityHandlerException;
+import org.apache.pdfbox.exceptions.COSVisitorException;
+import org.apache.pdfbox.exceptions.CryptographyException;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentInformation;
+import org.apache.pdfbox.pdmodel.encryption.BadSecurityHandlerException;
 
 import javax.xml.transform.TransformerException;
 import java.awt.BorderLayout;
