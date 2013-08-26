@@ -24,6 +24,7 @@
     <jar destfile="${jar.file}">
       <fileset dir=".">
         <include name="plugin.xml"/>
+        <include name="LICENSE.txt"/>
         <include name="${build.dir}/**"/>
       </fileset>
     </jar>
