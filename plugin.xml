@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plugin PUBLIC "-//JPF//Java Plug-in Manifest 1.0" "http://jpf.sourceforge.net/plugin_1_0.dtd">
-<plugin id="pdftasks" version="0.1">
+<plugin id="pdftasks" version="0.2">
 
   <requires>
     <import plugin-id="net.sf.jabref.core"/>
@@ -8,7 +8,6 @@
 
   <runtime>
     <library id="pluginCode" type="code" path="classes/"/>
-    <library id="pdfboxCode" type="code" path="libraries/pdfbox/"/>
   </runtime>
 
   <extension id="PDFTasks" plugin-id="net.sf.jabref.core" point-id="SidePanePlugin">
