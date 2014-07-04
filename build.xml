@@ -23,6 +23,7 @@
   <target name="jar" depends="compile">
     <jar destfile="${jar.file}">
       <fileset dir=".">
+        <include name="README.md"/>
         <include name="plugin.xml"/>
         <include name="LICENSE.txt"/>
         <include name="${build.dir}/**"/>
