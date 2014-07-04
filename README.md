@@ -1,3 +1,9 @@
+PDFTasks 0.3 (2014-07-04)
+=========================
+
+- Included license and README in jar.
+
+
 PDFTasks 0.2 (2013-08-26)
 =========================
 
