@@ -7,6 +7,12 @@
   <property name="build.dir" value="classes"/>
   <property name="jar.file" value="${ant.project.name}-${version}.jar"/>
 
+  <available file="/usr/share/java/jabref.jar" property="havejabref"/>
+  <fail unless="havejabref" message="JabRef is not installed"/>
+
+  <available file="/usr/share/java/pdfbox.jar" property="havepdfbox"/>
+  <fail unless="havepdfbox" message="PDFBox is not installed"/>
+
   <path id="classpath">
     <pathelement location="/usr/share/java/jabref.jar"/>
     <pathelement location="/usr/share/java/pdfbox.jar"/>
