@@ -6,6 +6,10 @@ A plugin for JabRef to assist with managing links to PDF files.
 Releases
 --------
 
+### PDFTasks 0.4 (2014-10-22)
+
+- Update to Java 1.7.
+
 ### PDFTasks 0.3 (2014-07-04)
 
 - Included license and README in jar.
