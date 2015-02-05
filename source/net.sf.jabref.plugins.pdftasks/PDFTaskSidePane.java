@@ -25,6 +25,7 @@ import net.sf.jabref.BibtexEntry;
 import net.sf.jabref.GUIGlobals;
 import net.sf.jabref.Globals;
 import net.sf.jabref.JabRefFrame;
+import net.sf.jabref.MetaData;
 import net.sf.jabref.SidePaneComponent;
 import net.sf.jabref.SidePaneManager;
 import net.sf.jabref.external.ExternalFileType;
@@ -38,7 +39,6 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentInformation;
 import org.apache.pdfbox.pdmodel.encryption.BadSecurityHandlerException;
 
-import javax.xml.transform.TransformerException;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -59,6 +59,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.xml.transform.TransformerException;
 
 // PDFTasks side pane class
 public class PDFTaskSidePane
@@ -212,7 +213,6 @@ public class PDFTaskSidePane
         // get Bibtex database associated with the current tab
         BasePanel db_panel = frame.basePanel();
         BibtexDatabase db = db_panel.database();
-        File db_file = db_panel.getFile();
 
         // build a map of where PDF files are stored
         HashMap<String, Integer> pdf_dir_count = new HashMap<String, Integer>();
@@ -259,14 +259,7 @@ public class PDFTaskSidePane
             pdf_dir_txt.setText("");
         }
         else {
-            File pdf_dir_max_file = absoluteFile(pdf_dir_max, db_file.getParentFile());
-            String rel_pdf_dir = relativePath(pdf_dir_max_file, db_file.getParentFile());
-            if (rel_pdf_dir != null) {
-                pdf_dir_txt.setText(rel_pdf_dir);
-            }
-            else {
-                pdf_dir_txt.setText(pdf_dir_max);
-            }
+            pdf_dir_txt.setText(pdf_dir_max);
         }
 
     }
@@ -276,9 +269,12 @@ public class PDFTaskSidePane
         // PDF file type representation
         final ExternalFileType pdf_type = Globals.prefs.getExternalFileTypeByExt("pdf");
 
-        // get selected Bibtex entries from the current tab
+        // get Bibtex database associated with the current tab
         final BasePanel db_panel = frame.basePanel();
         final BibtexDatabase db = db_panel.database();
+        final MetaData db_meta = db_panel.metaData();
+
+        // get selected Bibtex entries from the current tab
         final BibtexEntry[] db_entries = db_panel.getSelectedEntries();
 
         // get Bibtex database file for current tab
@@ -288,6 +284,15 @@ public class PDFTaskSidePane
                                           "Bibtex database must be saved before performing PDF tasks.",
                                           title, JOptionPane.INFORMATION_MESSAGE);
             return;
+        }
+
+        // get array of directories that PDF files could possibly be in
+        final List<File> db_dirs = new LinkedList<File>();
+        for (String dir : db_meta.getFileDirectory(GUIGlobals.FILE_FIELD)) {
+            db_dirs.add(new File(dir));
+        }
+        if (db_dirs.size() == 0 || !db_dirs.contains(db_file.getParentFile())) {
+            db_dirs.add(db_file.getParentFile());
         }
 
         // return if no entries are selected
@@ -367,7 +372,24 @@ public class PDFTaskSidePane
                                 continue;
 
                             // get PDF file
-                            File pdf_file = absoluteFile(file_entry.getLink(), db_file.getParentFile());
+                            File pdf_file = null;
+                            for (File db_dir : db_dirs) {
+                                pdf_file = absoluteFile(file_entry.getLink(), db_dir);
+                                if (pdf_file.isFile()) {
+                                    break;
+                                }
+                                pdf_file = null;
+                            }
+                            if (pdf_file == null) {
+                                String errmsg = "Could not find PDF file '" + file_entry.getLink() + "' in '" + db_dirs.get(0);
+                                for (int i = 1; i < db_dirs.size(); ++i) {
+                                    errmsg += "', '" + db_dirs.get(i);
+                                }
+                                errmsg += "'!";
+                                JOptionPane.showMessageDialog(frame, errmsg, title, JOptionPane.ERROR_MESSAGE);
+                                erred = true;
+                                return;
+                            }
 
                             // get PDF file description
                             String pdf_desc = file_entry.getDescription();
@@ -478,7 +500,7 @@ public class PDFTaskSidePane
                             }
 
                             // update file entry table and Bibtex entry
-                            file_entry.setLink(pdf_file.getPath());
+                            file_entry.setLink(relativePath(pdf_file, db_dirs.get(0)));
                             if (modifyDatabase) {
                                 String new_files = files.getStringRepresentation();
                                 if (!new_files.equals(entry.getField(GUIGlobals.FILE_FIELD))) {
