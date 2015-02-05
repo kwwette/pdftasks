@@ -6,7 +6,7 @@ A plugin for JabRef to assist with managing links to PDF files.
 Releases
 --------
 
-### PDFTasks ...
+### PDFTasks 0.5 (2015-02-05)
 
 - Respect JabRef's preferred file directories given under the "External
   programs" tab in the Preferences, in particular the "Main file
