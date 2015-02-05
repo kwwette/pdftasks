@@ -1,6 +1,6 @@
 //
 // JabRef PDFTasks Plugin
-// Copyright (C) 2011--2013  Karl Wette
+// Copyright (C) 2011--2015  Karl Wette
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -76,3 +76,9 @@ public class PDFTasks
     }
 
 }
+
+// Local Variables:
+// mode: java
+// c-basic-offset: 4
+// tab-width: 4
+// End:

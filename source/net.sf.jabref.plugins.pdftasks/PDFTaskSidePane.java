@@ -1,6 +1,6 @@
 //
 // JabRef PDFTasks Plugin
-// Copyright (C) 2011--2013  Karl Wette
+// Copyright (C) 2011--2015  Karl Wette
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -125,9 +125,9 @@ public class PDFTaskSidePane
                                              .addComponent(pdf_dir_txt)
                                              .addComponent(write_pdf_docinfo_chk)
                                              .addComponent(erase_pdf_docinfo_chk)
-                                             )
+                                       )
                                    .addComponent(do_tasks)
-                                   );
+                );
             grp.setVerticalGroup(grp
                                  .createSequentialGroup()
                                  .addComponent(rename_pdfs_chk)
@@ -144,15 +144,15 @@ public class PDFTaskSidePane
                                                   ComponentPlacement.UNRELATED)
                                  .addComponent(write_pdf_docinfo_chk)
                                  .addPreferredGap(
-                                                  write_pdf_docinfo_chk,
-                                                  erase_pdf_docinfo_chk,
-                                                  ComponentPlacement.RELATED)
+                                     write_pdf_docinfo_chk,
+                                     erase_pdf_docinfo_chk,
+                                     ComponentPlacement.RELATED)
                                  .addComponent(erase_pdf_docinfo_chk)
                                  .addPreferredGap(erase_pdf_docinfo_chk,
                                                   do_tasks,
                                                   ComponentPlacement.UNRELATED)
                                  .addComponent(do_tasks)
-                                 );
+                );
         }
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(pane);
@@ -351,9 +351,9 @@ public class PDFTaskSidePane
 
                         // update status bar
                         frame.output(String.format(
-                                                   "Processing BibTeX entry: %s (%d of %d)...",
-                                                   key, entry_count, db_entries.length
-                                                   ));
+                                         "Processing BibTeX entry: %s (%d of %d)...",
+                                         key, entry_count, db_entries.length
+                                         ));
 
                         // get table of file links for this Bibtex entry
                         FileListTableModel files = new FileListTableModel();
@@ -427,7 +427,7 @@ public class PDFTaskSidePane
                                                                           "This operation cannot be undone.",
                                                                           title,
                                                                           JOptionPane.YES_NO_CANCEL_OPTION)
-                                                        ) {
+                                                    ) {
                                                 case JOptionPane.NO_OPTION:
                                                     continue;
                                                 case JOptionPane.CANCEL_OPTION:
@@ -467,7 +467,7 @@ public class PDFTaskSidePane
                                         errmsg += ": an I/O exception occurred";
                                     }
                                     if (erred) {
-                                         JOptionPane.showMessageDialog(frame, errmsg + ".", title, JOptionPane.ERROR_MESSAGE);
+                                        JOptionPane.showMessageDialog(frame, errmsg + ".", title, JOptionPane.ERROR_MESSAGE);
                                         return;
                                     }
 
@@ -489,15 +489,15 @@ public class PDFTaskSidePane
 
                             // perform operations on PDF file contents
                             if (write_pdf_docinfo_chk.isSelected()) {
-                                
+
                                 if (erase_pdf_docinfo_chk.isSelected()) {
-                                    
+
                                     // get user confirmation
                                     if (!getUserConfirmation()) {
                                         cancelled = true;
                                         return;
                                     }
-                                        
+
                                     // open PDF file
                                     PDDocument document = null;
                                     try {
@@ -512,13 +512,13 @@ public class PDFTaskSidePane
                                                                       title, JOptionPane.ERROR_MESSAGE);
                                         return;
                                     }
-                                    
+
                                     // erase document information
                                     document.setDocumentInformation(new PDDocumentInformation());
-                                    
+
                                     // erase XML metadata
                                     document.getDocumentCatalog().setMetadata(null);
-                                    
+
                                     // save and close PDF file
                                     try {
                                         document.save(pdf_file.getPath());
@@ -542,9 +542,9 @@ public class PDFTaskSidePane
                                                                       title, JOptionPane.ERROR_MESSAGE);
                                         return;
                                     }
-                                    
+
                                 }
-                                
+
                                 // write XMP / PDF document catalog metadata
                                 try {
                                     XMPUtil.writeXMP(pdf_file, entry, db);
@@ -694,3 +694,9 @@ public class PDFTaskSidePane
     }
 
 }
+
+// Local Variables:
+// mode: java
+// c-basic-offset: 4
+// tab-width: 4
+// End:
